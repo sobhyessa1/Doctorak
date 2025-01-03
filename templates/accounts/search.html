@@ -1,0 +1,397 @@
+{% extends "base4.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<style>
+
+
+    .container-all {
+        margin: 1rem;
+    }
+
+    #section_patient_profile {
+        height: 98vh;
+    
+    }
+    #div_patient_profile {
+    
+    
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 1vw;
+        top:2rem;
+        padding-top: 2rem;
+        padding: 1rem;
+        height: 80vh;
+    }
+
+
+    .class_img {
+        max-width: 19`0px;
+        height: auto;
+        margin: 5px;
+        cursor: pointer;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        padding: 1rem;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 90%; 
+        max-width: 1000px; 
+    }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+    .close {
+        color: #fff;
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    .box-label {
+        display: inline-block;
+        width: 80px; 
+        font-weight: bold;
+    }
+
+    .box-content {
+        display: inline-block;
+        width: calc(100% - 90px); 
+    }
+
+    .co {
+        background-color: #2bb8c1;
+    }
+    #head_search {
+        background-color: #2bb8c1;
+    }
+    .g {
+        background-color: #e8e8e8;
+        margin-bottom: 5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+        .g label, span {
+            background-color: #fff;
+            border-radius: 1vw;
+         padding:1rem;
+        }
+  .top{
+      margin-top:2rem;
+  }
+    .collapse .btnn {
+        border-radius: 0;
+        background-color: #d4d2d2;
+        border: none;
+        width: 7rem;
+        padding: 0.3rem;
+        border-radius: 0.3rem;
+        margin-bottom: 0.2rem;
+        transition: background-color 0.3s;
+    }
+
+
+        .collapse .btnn:hover {
+            background-color: #1f9ba2;
+        }
+
+    #div_doctor_profile div {
+        background-color: #e8e8e8;
+        border-radius: 1vw;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    #div_doctor_profile {
+        position:relative;
+        left:14rem;
+        width: 60%;
+        background-color: #fff;
+        border-radius: 1vw;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .div_description {
+        background-color: #e8e8e8;
+        height: 10rem;
+        
+        border-radius: 1vw;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+        .div_description label{
+            background-color: #fff;
+            border-radius: 1vw;
+            padding: 1rem;
+        }
+        .div_description span {
+            border-radius: 1vw;
+            height: 10rem;
+            padding: 2rem;
+        }
+         .div_description span {
+ border-radius: 1vw;
+ height: 10rem;
+ padding: 2rem;
+  }
+    .rounde {
+        background-color: #2bb8c1;
+        border-radius: 1vw;
+    }
+    .form-group img{
+        margin-top:1rem;
+        max-width:10rem;
+}
+</style>
+<div class="container-all">
+    <div class="row justify-content-center align-items-center">
+        <!-- Patient Profile Section -->
+        {% if user_found and patient_profile %}
+        <div class="col-md-4">
+            <section id="section_patient_profile" class="p-3 border rounded shadow">
+                <div class="text-white text-center rounded p-2 mb-3 co">
+                    <h2>Patient Profile</h2>
+                </div>
+                <div id="div_patient_profile">
+                    <div class="top fs-7">
+                        <div class="p-4 mb-4 rounded g">
+                            <label class="box-label">Name:</label>
+                            <span class="box-content">{{ patient_profile.user.get_full_name }}</span>
+                        </div>
+                        <div class="p-4 mb-4 rounded g">
+                            <label class="box-label">WhatsApp:</label>
+                            <span class="box-content">
+                                <a href="https://wa.me/+2{{ patient_profile.phone }}" target="_blank">{{ patient_profile.phone }}</a>
+                            </span>
+                        </div>
+                        <div class="p-4 mb-4 rounded g">
+                            <label class="box-label">City:</label>
+                            <span class="box-content">{{ patient_profile.city }}</span>
+                        </div>
+                        <div class="p-4 mb-4 rounded g">
+                            <label class="box-label">Age:</label>
+                            <span class="box-content">{{ patient_profile.age }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        {% endif %}
+
+        <!-- Search Disease Section -->
+        {% if user_found and patient_profile %}
+        <div class="col-md-8">
+            <section id="section_search_disease" class="p-3 border rounded shadow">
+                <div id="head_search" class="text-white text-center rounded p-2 mb-3">
+                   
+        
+<div id="head_search" class=" text-white text-center rounded p-2 mb-3">
+    <nav class="navba navbar-expand-lg">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <h2>Search for Diseases</h2>
+                    </li>
+                </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <label for="disease_name" class="mr-2">Disease Name:</label>
+                    </li>
+                    <li class="nav-item">
+
+                        <form class="d-flex" method="GET" action="{% url 'search' %}">
+                            <input type="hidden" name="username" value="{{ request.GET.username }}">
+    
+                            <select id="disease_name" name="disease_name" class="form-control me-2">
+                                <option value="" selected disabled>Select Disease</option>
+                                {% for disease in diseases_list %}
+                                <option value="{{ disease.disease_name }}">{{ disease.disease_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" name="search" class="btnn btn-outline-success">Search</button>
+                        </form>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+
+
+                </div>
+                
+                {% if disease %}
+                <p><strong>Disease Name: {{ disease.disease_name }}</strong></p>
+                {% if disease_details %}
+                <div id="show_Disease" class="d-flex flex-wrap">
+                    <div class="Disease_container p-3 bg-light rounded shadow m-2" style="width: 48%; height: 320px;">
+                        <h3>Analysis Images:</h3>
+                        <div id="scroll-Disease_containeri" class="overflow-auto" style="height: 260px;">
+                            <div class="images d-flex flex-wrap">
+                                {% for analysis_image in disease_details.analysis_images %}
+                                <img class="class_img img-thumbnail m-1" src="{{ analysis_image.image.url }}" alt="Analysis">
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="Disease_container p-3 bg-light rounded shadow m-2" style="width: 48%; height: 320px;">
+                        <h3>Medication Images:</h3>
+                        <div id="scroll-Disease_containeri" class="overflow-auto" style="height: 260px;">
+                            <div class="images d-flex flex-wrap">
+                                {% for prescription_image in disease_details.prescription_images %}
+                                <img class="class_img img-thumbnail m-1" src="{{ prescription_image.image.url }}" alt="Medication">
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <img id="img01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="Disease_containerd p-3 bg-light rounded shadow m-2" style="width: 100%;">
+                        <h3>Dates of the Disease:</h3>
+                        <div id="scroll-Disease_containerd" class="overflow-auto" style="height: 150px;">
+                            <div class="images fs-4">
+                                {% for modified_date in disease_details.modified_dates %}
+                                <p>{{ modified_date }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+            </section>
+        </div>
+        {% endif %}
+
+        <!-- Doctor Profile Section -->
+        {% if user_found and doctor_profile %}
+        <div class="col-md-10 mt-4">
+            <section id="section_doctor_profile" class="p-3 border rounded shadow">
+                <div class="text-white text-center rounde p-2 mb-3">
+                    <h1>Doctor Profile</h1>
+                </div>
+                <div id="div_doctor_profile" class="mb-3">
+                    <div class="p-3 mb-3"><label>Name:</label><span>{{ doctor_profile.user.get_full_name }}</span></div>
+                    <div class="p-3 mb-3"><label>Phone:</label><span><a href="https://wa.me/+2{{ doctor_profile.phone }}" target="_blank">{{ doctor_profile.phone }}</a></span></div>
+                    <div class="p-3 mb-3"><label>City:</label><span>{{ doctor_profile.city }}</span></div>
+                </div>
+
+                    {% if doctor_profile.description %}
+                    <div class="div_description d-flex flex-wrap">
+                        <div class="p-2  w-100"><label>Description:</label><span> {{ doctor_profile.description }} </span></div>
+                    </div>
+                    {% endif %}
+                <div class="row">
+
+                    {% if doctor_profile.degree_certificate %}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="degree_certificate">Degree Certificate:</label>
+                            <img id="degree_certificate" class="img-fluid" src="{{ doctor_profile.degree_certificate.url }}" alt="شهادة الدرجة العلمية">
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if doctor_profile.syndicate_card %}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="syndicate_card">Membership Card:</label>
+                            <img id="syndicate_card" class="img-fluid" src="{{ doctor_profile.syndicate_card.url }}" alt="بطاقة النقابة">
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div id="myModal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="img01">
+                </div>
+
+            </section>
+        </div>
+        {% endif %}
+
+        {% if not user_found %}
+        <p>{{ error_message }}</p>
+        {% endif %}
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+
+        document.querySelectorAll(".class_img").forEach(img => {
+            img.addEventListener('click', function () {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+            });
+        });
+
+        document.querySelector(".close").addEventListener('click', function () {
+            modal.style.display = "none";
+        });
+    });
+
+    
+     // JavaScript for modal functionality (unchanged)
+        var modal = document.getElementById('myModal');
+        var images = document.getElementsByClassName('img-fluid');
+        var modalImg = document.getElementById("img01");
+
+        for (let img of images) {
+            img.onclick = function () {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+            }
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+     }
+
+        modal.onclick = function (event) {
+         if (event.target !== modalImg) {
+            modal.style.display = "none";
+         }
+     }
+
+  </script>
+
+{% endblock %}

@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+    <style>
+        #section_analysis {
+            position: absolute;
+            height: 80%;
+            width: 100%;
+            top: 125px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+
+            #section_analysis .div_analysis_img {
+                display: inline;
+                width: 35%;
+                height: 100%;
+                margin-inline-start: 30px;
+                border: 1px solid #bbb;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                border-radius: 15px;
+                background-color: #fff;
+                align-items: center;
+            }
+
+            #section_analysis .div_analysis_detailes {
+                left: 500px;
+                width: 58%;
+                height: 100%;
+                border: 1px solid #bbb;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                border-radius: 15px;
+                background-color: #fff;
+                margin-inline-start: 40px;
+            }
+
+        #imageContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2vw;
+            width: 30vw;
+            height: 40vh;
+            border-radius: 2vw;
+            border: none;
+            background-color: #f8f9fa;
+        }
+
+            #imageContainer img {
+                width: 25vw;
+                height: 35vh;
+            }
+
+        .div_h1 {
+            text-align: center;
+            background-color: #2bb8c1;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .div_analysis_img > .div_h1 h1 {
+            color: #fff;
+            margin: 0px;
+            padding: 10px;
+            height: 4vh;
+        }
+
+        #form_img {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .div_in {
+            width: 30vw;
+            height: 5vh;
+            padding: 1vw;
+            margin-bottom: 2vw;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+            .div_in input, .div_in label {
+                width: 18vw;
+                height: 3vh;
+                text-align: center;
+                padding: 7px;
+                margin-inline-end: 0.5vw;
+                background-color: #fff;
+                border-radius: 1vw;
+            }
+
+        .div_btn button {
+            width: 11vw;
+            height: 6vh;
+            text-align: center;
+            padding: 7px;
+            margin: 1vw;
+            background-color: #2bb8c1;
+            border: none;
+            border-radius: 0.5vw;
+            color: #fff;
+            font-size: 1vw;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .div_btn button:hover {
+            background-color: #1f9ba2;
+        }
+</style>
+</head>
+<body>
+    <header>
+        <div class="log">
+            <img src="{% static 'image/logo.jpg' %}" alt="Logo" />
+        </div>
+        <div id="header_pages">
+            <ul class="ul-header_pages">
+                <li class="ul-item_p"><a href="{% url 'home' %}">Home</a></li>
+                <li class="ul-item_p"><a href="{% url 'add_medical_record' %}">Diseases</a></li>
+            </ul>
+        </div>
+        <div id="header_pages_i">
+            <ul class="ul-header_pages_i">
+                <li class="ul-item_i"><a href="{% url 'account' %}"><img class="acount_icon" src="{% static 'image/account.png' %}" /></a></li>
+                <li class="ul-item_i"><a href="{% url 'logout' %}"><img class="exist-icon" src="{% static 'image/exist.png' %}" /></a></li>
+            </ul>
+        </div>
+        <div id="search-class">
+            <form class="form-search" action="{% url 'search' %}" method="GET">
+                <input class="text-search" type="search" placeholder="Search..." name="username" />
+                <button type="submit"><img class="search-icon" src="{% static 'image/search.png' %}"></button>
+            </form>
+        </div>
+    </header>
+
+    <section id="section_analysis">
+        <div class="div_analysis_img">
+            <div class="div_h1">
+                <h1>Add Analysis</h1>
+            </div>
+            <form id="form_img" enctype="multipart/form-data">
+                
+                <div id="imageContainer">
+                    <img id="image" name="image" src="{{ images.image.url }}" alt="Selected image will appear here" style="display: none;">
+                </div>
+                <div class="div_in">
+                    <label for="fileInput">Add Image:</label>
+                    <input type="file" id="fileInput" name="image">
+                </div>
+                <div class="div_btn">
+                    <button type="button" id="deleteBtn">Delete</button>
+                    <button type="submit">Check</button>
+                </div>
+            </form>
+        </div>
+        <div class="div_analysis_detailes">
+            <h1>Analysis Results</h1>
+        </div>
+    </section>
+
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.getElementById('image');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('deleteBtn').addEventListener('click', function () {
+        const img = document.getElementById('image');
+        img.src = '#';
+        img.style.display = 'none';
+        document.getElementById('fileInput').value = '';
+    });
+</script>
+
+
+</body>
+</html>
+
+
+{% endblock %}

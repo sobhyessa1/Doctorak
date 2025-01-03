@@ -1,0 +1,420 @@
+{% extends 'base4.html' %}
+{% load static %}
+
+{% block title %}Diseases{% endblock %}
+
+{% block content %}
+<style>
+    .nav-link img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navba {
+        background-color: #2bb8c1;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        color: #fff;
+        height: 5vw;
+        padding: 1vw;
+    }
+
+    .navba .btnn {
+        color: #fff;
+        font-size: 15px;
+        border: none;
+        border-radius: 0.4rem;
+        background-color: #efe4e4;
+        transition: background-color 0.3s;
+    }
+
+    .cardd {
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+        background-color: #2bb8c1;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        height: 10vh;
+        padding: 1rem;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .cont {
+        margin: 1rem;
+    }
+
+    .btnn:hover {
+        color: #000;
+        background-color: #d4d2d2;
+    }
+
+    .class_img {
+        max-width:15rem;
+        height: auto;
+        margin: 0.2rem;
+        cursor: pointer;
+    }
+
+    #form_change .btn {
+        border-radius: 0;
+        background-color: #2bb8c1;
+        border: none;
+        width: 250px;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        transition: background-color 0.3s;
+    }
+
+    #form_change .btn:hover {
+        background-color: #1f9ba2;
+    }
+
+    #scroll-containeri {
+        display: flex;
+        width: 100%;
+        height: 40vh;
+        overflow-y: auto;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    #scroll-container {
+        height: 20vh;
+        overflow-y: auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #myModal .modal-content {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btn-close {
+        border: none;
+        background: none;
+        font-size: 1.5rem;
+    }
+
+    .btn-close:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .form-group {
+        width: 47%;
+        margin: 10px;
+        background-color: #f8f9fa;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group.flex-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .form_add {
+        height: 100vh;
+    }
+
+    .form_add .form-group {
+        width: 70%;
+        height: 20vh;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+    }
+
+    .form_add .btn {
+        border-radius: 0;
+        background-color: #2bb8c1;
+        border: none;
+        width: 250px;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .form_add .btn:hover {
+        background-color: #1f9ba2;
+    }
+
+    /* Modal styles */
+    #myModal {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    #myModal .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+
+    #myModal .modal-content img {
+        width: 100%;
+        height: auto;
+    }
+
+    #myModal .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    #myModal .close:hover,
+    #myModal .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .delete-btn{
+        border-radius: 0;
+        background-color: #2bb8c1;
+        border: none;
+        width:3.5rem;
+        padding: 0.5rempx;
+        border-radius: 0.3rem;
+        color:#fff;
+        font-size:0.8rem;
+        margin-bottom:0.5rem;
+        transition: background-color 0.3s;
+    }
+    .delete-btn .btn:hover {
+        background-color: #1f9ba2;
+    }
+</style>
+
+<div class="cont">
+    <div class="row">
+        <!-- Section to Add Disease -->
+        <section id="section_add_disease" class="col-md-5 mb-5">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-12">
+                    <div class="cardd">
+                        <div class="card-header">
+                            <h2 class="text-center">Add Disease</h2>
+                        </div>
+                        <div class="card-body fs-6">
+                            <form class="form_add card p-4 shadow-sm justify-content-center align-items-center" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="disease_name">Disease Name:</label>
+                                    <input type="text" class="form-control" id="disease_name" name="disease_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="treatment_start_date">Start Date:</label>
+                                    <input type="date" class="form-control" id="treatment_start_date" name="treatment_start_date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prescription_images">Add Medication Images:</label>
+                                    <input type="file" class="form-control-file" id="prescription_images" name="prescription_images" multiple>
+                                </div>
+                                <div class="form-group">
+                                    <label for="analysis_images">Analysis Images:</label>
+                                    <input type="file" class="form-control-file" id="analysis_images" name="analysis_images" multiple>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section to Search Diseases -->
+        <section id="section_search_disease" class="col-md-7 mb-5">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-12">
+                    <div class="card">
+                        <nav class="navba navbar-expand-lg">
+                            <div class="container">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <h2>Search for Diseases</h2>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        
+                                        <li class="nav-item">
+                                            <form method="POST" action="{% url 'add_medical_record' %}" class="d-flex">
+                                                {% csrf_token %}
+                                                <select id="disease_name" name="disease_name" class="form-control me-2">
+                                                    <option value="" selected disabled>Select Disease</option>
+                                                    {% for disease in diseases_list %}
+                                                        <option value="{{ disease.disease_name }}">{{ disease.disease_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <button type="submit" name="search" class="btnn btn-outline-success">Search</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+
+                        <div class="card-body fs-6">
+                            {% if record_found %}
+                                {% for record in records %}
+                                    <p><strong>Disease Name:</strong> {{ record.disease_name }}</p>
+                                    <form id="form_change" class="d-flex flex-wrap" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <h3>Add Disease Date:</h3>
+                                            <label for="Start_Date">Start of Disease: </label>
+                                            <input type="date" class="form-control" id="Start_Date" name="treatment_start_date" value="{{ record.treatment_start_date }}">
+                                            <label for="End_Date">End of Disease: </label>
+                                            <input type="date" class="form-control" id="End_Date" name="recovery_date" value="{{ record.recovery_date }}">
+                                        </div>
+                                        <div class="form-group flex-column">
+                                            <h3>Dates of the Disease:</h3>
+                                            <div id="scroll-container">
+                                                <ul>
+                                                    {% for modified_date in record.modified_dates %}
+                                                        <li>{{ modified_date }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="form-group flex-column">
+                                            <h3>Analysis Images:</h3>
+                                            <div id="scroll-containeri" class="d-flex flex-wrap">
+                                                {% for analysis_image in record.analysis_images %}
+                                                    <div>
+                                                        <img class="class_img" src="{{ analysis_image.image.url }}" alt="Analysis Image" width="200" data-image-id="{{ analysis_image.id }}" data-image-type="analysis"><br>
+                                                        <button type="button" class="delete-btn" data-image-id="{{ analysis_image.id }}" data-image-type="analysis">Delete</button>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <input type="hidden" name="disease_id" value="{{ record.id }}">
+                                            <label for="analysis_images">Add New Analysis:</label>
+                                            <input type="file" class="form-control-file" id="analysis_images" name="analysis_images" multiple>
+                                        </div>
+                                        <div class="form-group flex-column">
+                                            <h3>Medication Images:</h3>
+                                            <div id="scroll-containeri" class="d-flex flex-wrap">
+                                                {% for prescription_image in record.prescription_images %}
+                                                    <div>
+                                                        <img class="class_img" src="{{ prescription_image.image.url }}" alt="Prescription Image" width="200" data-image-id="{{ prescription_image.id }}" data-image-type="prescription"><br>
+                                                        <button type="button" class="delete-btn" data-image-id="{{ prescription_image.id }}" data-image-type="prescription">Delete</button>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <input type="hidden" name="disease_id" value="{{ record.id }}">
+                                            <label for="prescription_images">Add New Medicine:</label>
+                                            <input type="file" class="form-control-file" id="prescription_images" name="prescription_images" multiple>
+                                        </div>
+                                        <button type="submit" name="add_images" class="btn btn-primary btn-block">Update</button>
+                                    </form>
+                                {% endfor %}
+                            {% else %}
+                                <p>{{ error_message }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Include jQuery -->
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+        <!-- Include Bootstrap JS -->
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <!-- Include other JS scripts -->
+        <script src="{% static 'js/all.min.js' %}"></script>
+        <script src="{% static 'js/project.js' %}"></script>
+
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <div class="modal-content">
+                <img id="img01" src="" alt="Modal Image">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var modal = document.getElementById('myModal');
+    var modalImg = document.getElementById("img01");
+    var images = document.getElementsByClassName('class_img');
+    var deleteButtons = document.getElementsByClassName('delete-btn');
+
+    for (let img of images) {
+        img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+    }
+
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    for (let btn of deleteButtons) {
+        btn.onclick = function () {
+            var imageType = btn.getAttribute('data-image-type');
+            var imageId = btn.getAttribute('data-image-id');
+            if (confirm("Are you sure you want to delete this image?")) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = ''; // same URL
+
+                var csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'csrfmiddlewaretoken';
+                csrfInput.value = '{{ csrf_token }}';
+
+                var imageTypeInput = document.createElement('input');
+                imageTypeInput.type = 'hidden';
+                imageTypeInput.name = 'image_type';
+                imageTypeInput.value = imageType;
+
+                var imageIdInput = document.createElement('input');
+                imageIdInput.type = 'hidden';
+                imageIdInput.name = 'delete_image';
+                imageIdInput.value = imageId;
+
+                form.appendChild(csrfInput);
+                form.appendChild(imageTypeInput);
+                form.appendChild(imageIdInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    }
+</script>
+
+{% endblock %}

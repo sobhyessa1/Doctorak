@@ -1,0 +1,173 @@
+﻿body {
+    font-family: Arial, sans-serif;
+       color: #333;
+    background-color: #f8f9fa;
+}
+
+.login-container {
+    margin-top: 50px;
+    border-radius: 20px;
+  
+}
+
+.card {
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+}
+
+
+.card-header {
+    background-color: #2bb8c1;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    
+    border-radius: 10px 10px 0 0;
+}
+label{
+    position:relative;
+   left:160px;
+    margin:5px;
+}
+.form-control {
+    border-radius: 7px;
+    max-width: 400px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-color: #dee2e6;
+}
+
+
+.btn {
+
+    border-radius: 0;
+    background-color: #2bb8c1;
+    border: none;
+    width: 250px;
+    padding:10px;
+    
+    border-radius: 3px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s;
+}
+    .btn:hover {
+        
+        background-color: #1f9ba2;
+    }
+
+    .form-check-input{
+      position:relative;
+      left:160px;
+    
+
+    }
+     .btn-container {
+      text-align: center;
+  }
+    .form-control-file{
+    position:relative;
+     left:160px;
+    
+    }
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    
+    
+   
+}
+
+    .navbar .navbar-nav .nav-link {
+        color: #2bb8c1;
+        font-size: 25px;
+        margin-right: 25px;
+        font-weight: 700;
+        transition: font-size 0.3s, color 0.3s; 
+    }
+        .navbar .navbar-nav .nav-link active,
+        .navbar .navbar-nav .nav-link:focus,
+        .navbar .navbar-nav .nav-link:hover {
+            color: #1f9ba2;
+            font-size: 26px;
+        }
+
+
+
+    .navbar .btn {
+        color: #fff;
+        font-size: 15px;
+        border: none;
+        background-color: #2bb8c1;
+        transition: background-color 0.3s;
+    }
+
+        .navbar .btn:hover {
+            background-color: #1f9ba2;
+        }
+
+
+
+        #carouselExampleCaptions {
+            max-width: 90%;
+            height: 50%;
+            margin: 20px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+        }
+    #carouselExampleCaptions img {
+        max-width:50%;
+        max-height:50%;
+        border-radius: 20px;
+    }
+    #carouselExampleCaptions .btn_next button {
+        max-width: 50px;
+        max-height: 50px;
+        top: 250px;
+        background-color: gray;
+        border-radius: 5px;
+    }
+
+
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    max-width: 50px;
+    max-height: 50px;
+    background-color: gray;
+}
+
+
+.carousel-indicators {
+    background-color:darkgray;
+    max-width: 130px;
+    margin: auto;
+   
+}
+.carousel-caption {
+    color: #2bb8c1;
+
+   
+
+
+}
+
+    .carousel-caption .btn {
+        color: #fff;
+        font-size: 15px;
+        margin-top: 100px;
+        width:100px;
+        border: none;
+        background-color: #2bb8c1;
+        transition: background-color 0.3s;
+    }
+
+
+    .carousel-caption .btn:hover {
+        background-color: #1f9ba2;
+    }

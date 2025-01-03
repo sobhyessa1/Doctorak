@@ -1,0 +1,105 @@
+﻿{% extends 'base3.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-color: #f8f9fa;
+    }
+
+    .login-container {
+        margin-top: 50px;
+        border-radius: 20px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+        background-color: #2bb8c1;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card label {
+        position: relative;
+        left: 160px;
+        margin: 5px;
+    }
+
+    .form-control {
+        border-radius: 7px;
+        max-width: 400px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-color: #dee2e6;
+    }
+
+    .btn {
+        border-radius: 0;
+        background-color: #2bb8c1;
+        border: none;
+        width: 250px;
+        padding: 10px;
+        border-radius: 3px;
+        margin-bottom: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #1f9ba2;
+    }
+
+    .forgot-password {
+        text-align: center;
+    }
+</style>
+<div class="container login-container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    Login
+                </div>
+                <div class="card-body fs-6">
+                    <div class="text-center mb-4">
+                        <img src="{% static 'image/logo.jpg' %}" alt="Logo" width="250">
+                    </div>
+                    <form id="loginForm" method="post">
+                        {% csrf_token %}
+                        <div class="form-group row justify-content-center align-items-center">
+                            <label for="username">Username:</label><br>
+                            <input type="text" class="form-control" id="inputusername" name="username" required><br>
+
+                            <label for="password">Password:</label><br>
+                            <input type="password" class="form-control" id="inputpassword" name="password" required><br>
+                        </div>
+                        <div class="text-center">
+                            <div class="form-group mb-2">
+                                <input type="checkbox" name="is_doctor" id="remember"> Are you a Doctor?
+                            </div>
+                            <button name="btnsignin" type="submit" class="btn btn-primary btn-block">Submit</button>
+                            <div class="mt-2">
+                                <a href="{% url 'signup' %}" class="btn btn-primary btn-block">Sign Up</a>
+                            </div>
+                            <div class="forgot-password mt-3">
+                                <a href="{% url 'forget_reset_pass' %}">Forgot Password?</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

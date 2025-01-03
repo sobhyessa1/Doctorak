@@ -1,0 +1,152 @@
+{% extends 'base3.html' %}
+{% load static %}
+
+{% block title %}Forgot Password{% endblock %}
+
+{% block content %}
+<style>
+    .hidden {
+        display: none;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-color: #f8f9fa;
+    }
+
+    .forget-container {
+        margin-top: 50px;
+        border-radius: 20px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+        background-color: #2bb8c1;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    label {
+        position: relative;
+        left: 160px;
+        margin: 5px;
+    }
+
+    .form-control {
+        border-radius: 7px;
+        max-width: 400px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-color: #dee2e6;
+    }
+
+    .btn {
+        border-radius: 0;
+        background-color: #2bb8c1;
+        border: none;
+        border-radius: 7px;
+        width: 30%;
+        margin-bottom: 10px;
+        padding: 10px;
+        margin-bottom: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #1f9ba2;
+    }
+</style>
+
+<div class="container forget-container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    Forgot Password
+                </div>
+                <div class="card-body fs-6">
+                    <div class="text-center mb-4">
+                        <img src="{% static 'image/logo.jpg' %}" alt="Logo" width="250">
+                    </div>
+
+                    <!-- نموذج إدخال البريد الإلكتروني لإرسال رمز إعادة التعيين -->
+                    <form id="sendCodeForm"  method="post" class="{% if stage == 'reset' %}hidden{% endif %}">
+                        {% csrf_token %}
+                        <div class="form-group justify-content-center align-items-center">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                            <button type="submit" class="btn btn-primary btn-block text-align-center" name="btnforgetpass">Send Code</button>
+                        </div>
+                    </form>
+
+                    <!-- نموذج إعادة تعيين كلمة المرور -->
+                    <form id="resetPasswordForm" method="post" class="{% if stage == 'forget' %}hidden{% endif %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="hidden" name="email" value="{{ email }}">
+                            <input type="text" id="confirmationCode" name="reset_code" class="form-control" placeholder="Enter reset code" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="newPassword" name="new_password" class="form-control" placeholder="Enter new password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirmNewPassword" name="confirm_password" class="form-control" placeholder="Confirm new password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" name="btnresetpass">Reset Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function showConfirmationCodeForm() {
+        document.getElementById("sendCodeForm").style.display = "none";
+        document.getElementById("confirmCodeForm").style.display = "block";
+    }
+
+    function showResetPasswordForm() {
+        document.getElementById("confirmCodeForm").style.display = "none";
+        document.getElementById("resetPasswordForm").style.display = "block";
+    }
+</script>
+{% endblock %}
+
+
+<div  class="{% if stage == 'reset' %}hidden{% endif %}" >
+    <form id="sendCodeForm" method="POST">
+        {% csrf_token %}
+        <div class="form-group justify-content-center align-items-center">
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email">
+            <button type="submit" class="btn btn-primary btn-block text-align-center">Send Code</button>
+        </div>
+
+    </form>
+</div>
+<div class="{% if stage == 'forget' %}hidden{% endif %}">
+    
+    <form id="confirmCodeForm" style="display: none"  method="POST" >
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" id="confirmationCode" name="reset_code" class="form-control" placeholder="Enter confirmation code"required>
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="newPassword" name="new_password" class="form-control" placeholder="Enter new password"required>
+        </div>
+        <div class="form-group">
+            <input type="password" id="confirmNewPassword" name="confirm_password" class="form-control" placeholder="Confirm new password"required>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block"  name="btnresetpass">Reset Password</button>
+    </form>
+</div>

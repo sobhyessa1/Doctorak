@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<body>
+    <h1>Contact Us</h1>
+    {% if success_message %}
+        <p style="color: green;">{{ success_message }}</p>
+    {% endif %}
+    <form method="GET">
+        {{ form.as_p }}
+        <button type="submit">Send Message</button>
+    </form>
+</body>
+
+{% endblock content %}
